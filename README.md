@@ -18,11 +18,11 @@ Let's start by ignoring the files that we never want to copy to the docker image
 
 ### Docker File
 
-Next, let's define our Docker container by creating a Dockerfile in the root of the project:
+Next, let's define our Docker container by creating a `Dockerfile` in the root of the project:
 
 ```
 # ==== CONFIGURE =====
-# Use a Node 16 base image
+# Use a Node latest version base image
 FROM node:lts-alpine
 # Set the working directory to /app inside the container
 WORKDIR /app
@@ -41,3 +41,22 @@ EXPOSE 3000
 # Start the app
 CMD [ "npx", "serve", "build" ]
 ```
+
+### Build and run the application
+
+Ok, let's build the Docker image and run it, to make sure everything works.
+
+```
+# Build the Docker image for the current folder
+# and tag it with `project-name`
+docker build . -t project-name
+
+# Check the image was created
+docker images | grep project-name
+
+# Run the image in detached mode
+# and map port 3000 inside the container with 3000 on current host
+docker run -p 3000:3000 -d project-name
+```
+
+Now open the app at http://localhost:3000 - you should see Output 😀
